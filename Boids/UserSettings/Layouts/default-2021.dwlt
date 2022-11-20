@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 45
+  controlID: 56
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -68,8 +68,8 @@ MonoBehaviour:
     y: 0
     width: 454
     height: 947
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 90
+  controlID: 68
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 91
+  controlID: 69
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: A:\Unity Project\Boids
+  m_LastProjectPath: A:\Unity_Projects\Boids
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
@@ -790,7 +790,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.17837743, y: 0.7692596, z: -0.24383369, w: -0.5630785}
     speed: 2
-    m_Value: {x: -0.17752463, y: 0.7695894, z: -0.2426684, w: -0.5633198}
+    m_Value: {x: -0.17836931, y: 0.7692245, z: -0.24382259, w: -0.5630529}
   m_Size:
     m_Target: 244.4369
     speed: 2
