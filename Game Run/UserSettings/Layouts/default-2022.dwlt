@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 57
+  controlID: 124
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -437,9 +437,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 28220000
+      m_SelectedIDs: ec2c0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 4cf1ffff6ef1ffff38f7ffff2cfbffff2efbffff
+      m_ExpandedIDs: 2efbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -918,7 +918,7 @@ MonoBehaviour:
   m_LastFolders:
   - Assets/Scripts
   m_LastFoldersGridSize: 74
-  m_LastProjectPath: A:\Unity Project\Yandex\Game Run
+  m_LastProjectPath: A:\Unity_Projects\Game Run
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
