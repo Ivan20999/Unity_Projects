@@ -19,8 +19,7 @@ public class BulletController : MonoBehaviour
     {
         _enemy = GameObject.FindGameObjectWithTag("Enemy");
         _player = GameObject.FindGameObjectWithTag("Player");
-
-        _speedMove = _player.GetComponent<Damage>()._attackSpeed;
+        _speedMove = PlayerPrefs.GetInt("attackSpeedP"); 
         Debug.Log(_speedMove);
     }
 
