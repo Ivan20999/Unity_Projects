@@ -8,12 +8,6 @@ public class BulletRespawn : MonoBehaviour
 
     public float _spawnCycle = 2f;
 
-    private void Start()
-    {
-        //_spawnCycle = gameObject.GetComponent<Damage>()._attackSpeed;
-        //_spawnCycle = _spawnCycle / 10;
-    }
-
     void Update()
     {
         _timer += Time.deltaTime;

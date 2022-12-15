@@ -3,27 +3,26 @@ using TMPro;
 
 public class CoinManager : MonoBehaviour
 {
-    public int NumberOfCoins;
+    private int _coins;
     [SerializeField] TextMeshProUGUI _text;
 
     private void Start()
     {
-        _text.text = NumberOfCoins.ToString();
+        _coins = PlayerPrefs.GetInt("coins");
+        _text.text = _coins.ToString();
     }
 
     public void AddOne()
     {
-        NumberOfCoins += 10;
-        _text.text = NumberOfCoins.ToString();
+        _coins += 10;
+        PlayerPrefs.SetInt("coins", _coins);
     }
 
-    private void Update()
+    public void Update()
     {
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            AddOne();
-        }
+        _coins = PlayerPrefs.GetInt("coins");
+        _text.text = _coins.ToString();
     }
+
 }
 

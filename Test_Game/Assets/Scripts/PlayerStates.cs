@@ -12,11 +12,13 @@ public class PlayerStates : MonoBehaviour
         if (PlayerPrefs.HasKey("damageP"))
         {
             PlayerPrefs.GetInt("damageP");
+            PlayerPrefs.GetInt("coins");
             PlayerPrefs.GetFloat("attackSpeedP");
             PlayerPrefs.GetFloat("healthP");
         }
         else
         {
+            PlayerPrefs.SetInt("coins", _coins);
             PlayerPrefs.SetInt("damageP", _damage);
             PlayerPrefs.SetFloat("attackSpeedP", _attackSpeed);
             PlayerPrefs.SetFloat("healthP", _health);
