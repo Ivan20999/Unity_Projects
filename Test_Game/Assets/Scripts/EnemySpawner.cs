@@ -22,6 +22,7 @@ public class EnemySpawner : MonoBehaviour
             temp.transform.position = position;
 
             _timer = 0;
+
         }
     }
 }

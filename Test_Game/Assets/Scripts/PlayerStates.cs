@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerStates : MonoBehaviour
 {
     [SerializeField] private int _damage = 20;
-    [SerializeField] private float _attackSpeed = 4f;
+    [SerializeField] private float _attackSpeed = 8f;
     [SerializeField] private float _health = 100f;
     [SerializeField] private int _coins = 0;
 

@@ -841,7 +841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 1467862002174206868, guid: ea5a27eb8a9e88044968dc4effa17f74,
     type: 3}
-  _spawnCycle: 5
+  _spawnCycle: 4
 --- !u!1 &523356568
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,7 +1715,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39a9e796a5fe9434abd7959207595c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfCoins: 0
   _text: {fileID: 523356570}
 --- !u!1 &933472352
 GameObject:
@@ -2261,7 +2260,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1300740276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.53, y: 1.65, z: 0}
+  m_LocalPosition: {x: -0.03, y: 1.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

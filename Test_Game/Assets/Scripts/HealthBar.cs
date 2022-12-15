@@ -7,6 +7,8 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image _healthBarFilling;
     [SerializeField] private GameObject _text;
+    private bool isTrue = false;
+    private float _timer = 0;
 
     private Camera _camera;
 
@@ -24,16 +26,23 @@ public class HealthBar : MonoBehaviour
         _text.SetActive(true);
         _healthBarFilling.fillAmount = bar;
         _text.GetComponent<TextMeshProUGUI>().text = damage.ToString();
-        Invoke("SetOff", 2);
-    }
-
-    void SetOff()
-    {
-        _text.SetActive(false);
+        isTrue = true;
     }
 
     private void LateUpdate()
     {
+
+        if (isTrue)
+        {
+            _timer += Time.deltaTime;
+
+            if(_timer > 2)
+            {
+                _text.SetActive(false);
+                _timer = 0; 
+            }
+        }
+
         transform.LookAt(new Vector3(transform.position.x, _camera.transform.position.y, _camera.transform.position.z));
         transform.Rotate(0, 180, 0);
     }

@@ -6,35 +6,30 @@ public class EnemyMove : MonoBehaviour
     public float _rotationSpeed;
     private bool _isMove = true;
 
-    private GameObject Player;
+    private GameObject _player;
 
     private void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        _player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
     {
-        if (Player != null )
-        {
-            var _lookDir = Player.transform.position - gameObject.transform.position;
-            _lookDir.y = 0;
+        Vector3 TargetVector = _player.transform.position - gameObject.transform.position;
 
-            if (_isMove)
-            {
-                gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, Quaternion.LookRotation(_lookDir), _rotationSpeed * Time.deltaTime);
-                gameObject.transform.position += gameObject.transform.forward * _moveSpeed * Time.deltaTime;
-            }
-        }
-        Debug.Log(_isMove);
-    }
-
-    private void OnTriggerEnter(Collider o)
-    {
-        if (o.tag == "Player")
+        if (TargetVector.magnitude < 1.5)
         {
             _isMove = false;
         }
-        
+
+        if (_player != null && _isMove)
+        {
+            var _lookDir = _player.transform.position - gameObject.transform.position;
+            _lookDir.y = 0;
+            gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, Quaternion.LookRotation(_lookDir), _rotationSpeed * Time.deltaTime);
+            gameObject.transform.position += gameObject.transform.forward * _moveSpeed * Time.deltaTime;
+        }
+
     }
+
 }
