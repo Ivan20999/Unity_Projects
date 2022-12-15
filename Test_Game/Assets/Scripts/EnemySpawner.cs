@@ -15,6 +15,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (_timer > _spawnCycle)
         {
+
             GameObject temp = Instantiate(_enemyPrefab) as GameObject;
             Vector3 position = temp.transform.position;
             position.z = Random.Range(-7f, 7f);

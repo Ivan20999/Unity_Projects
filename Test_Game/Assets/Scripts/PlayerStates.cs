@@ -2,26 +2,24 @@ using UnityEngine;
 
 public class PlayerStates : MonoBehaviour
 {
-    [SerializeField] public int _damage = 20;
-    [SerializeField] public float _attackSpeed = 2f;
-    [SerializeField] public float _health = 100;
-    [SerializeField] public int _coins = 0;
+    [SerializeField] private int _damage = 20;
+    [SerializeField] private float _attackSpeed = 4f;
+    [SerializeField] private float _health = 100f;
+    [SerializeField] private int _coins = 0;
 
     private void Start()
     {
-        //if (PlayerPrefs.HasKey("damageP"))
-        //{
-        //    PlayerPrefs.GetInt("damageP");
-        //    PlayerPrefs.GetInt("attackSpeedP");
-        //    PlayerPrefs.GetInt("healthP");
-        //}
-        //else
-        // {
-        PlayerPrefs.DeleteAll();
-        PlayerPrefs.SetInt("damageP", _damage);
-        PlayerPrefs.SetFloat("attackSpeedP", _attackSpeed);
-        PlayerPrefs.SetFloat("healthP", _health);
-        // }
-
+        if (PlayerPrefs.HasKey("damageP"))
+        {
+            PlayerPrefs.GetInt("damageP");
+            PlayerPrefs.GetFloat("attackSpeedP");
+            PlayerPrefs.GetFloat("healthP");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("damageP", _damage);
+            PlayerPrefs.SetFloat("attackSpeedP", _attackSpeed);
+            PlayerPrefs.SetFloat("healthP", _health);
+        }
     }
 }

@@ -3,8 +3,8 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     private GameObject _enemy;
-    private GameObject _player;
-    public float _speedMove = 0.5f;
+
+    public float _speedMove = 4f;
 
     public BulletState _state;
 
@@ -18,9 +18,9 @@ public class BulletController : MonoBehaviour
     void Start()
     {
         _enemy = GameObject.FindGameObjectWithTag("Enemy");
-        _player = GameObject.FindGameObjectWithTag("Player");
-        _speedMove = PlayerPrefs.GetInt("attackSpeedP"); 
-        Debug.Log(_speedMove);
+
+        _speedMove = PlayerPrefs.GetFloat("attackSpeedP");
+
     }
 
     void Update()

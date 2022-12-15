@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ATKEnhance : MonoBehaviour
+public class HPEnhance : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _text;
     [SerializeField] TextMeshProUGUI _textCurrent;
-    private int _value;
+    private float _value;
 
     public void SetEnhance()
     {
         _value += 1;
         _textCurrent.text = _value.ToString();
-        PlayerPrefs.SetInt("damageP", _value);
+        PlayerPrefs.SetFloat("healthP", _value);
 
     }
 
     void Start()
     {
-        _text.text = "ATK";
-        _value = PlayerPrefs.GetInt("damageP");
+        _text.text = "HP";
+        _value = PlayerPrefs.GetFloat("healthP");
         _textCurrent.text = _value.ToString();
     }
 

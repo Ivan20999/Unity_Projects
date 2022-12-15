@@ -8,13 +8,15 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] HealthBar _barHP;
     GameObject _coinManager;
 
-    private int _currentHealth;
+    private float _currentHealth;
+    private float _maxHealth = 100;
 
     private void Start()
     {
         _barHP.GetComponent<HealthBar>();
-        _currentHealth = PlayerPrefs.GetInt("healthE");
+        _currentHealth = PlayerPrefs.GetFloat("healthE");
         _coinManager = GameObject.FindGameObjectWithTag("CoinManager");
+        _currentHealth = _maxHealth;
     }
 
     void OnTriggerEnter(Collider other)
@@ -35,7 +37,7 @@ public class EnemyHealth : MonoBehaviour
         }
         else
         {
-            float bar = (float)_currentHealth / PlayerPrefs.GetInt("healthE");
+            float bar = (float)_currentHealth / _maxHealth;
             _barHP.OnHealthChange(bar, value);
         }
     }

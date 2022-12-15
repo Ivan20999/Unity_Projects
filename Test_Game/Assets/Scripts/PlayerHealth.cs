@@ -6,12 +6,14 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] public string _nameTag;
     [SerializeField] HealthBar _barHP;
 
-    private int _currentHealth;
+    private float _currentHealth;
+    private float _maxHealth = 100;
 
     private void Start()
     {
+        _maxHealth = PlayerPrefs.GetFloat("healthP");
         _barHP.GetComponent<HealthBar>();
-        _currentHealth = PlayerPrefs.GetInt("healthP");
+        _currentHealth = _maxHealth;
     }
 
     void OnTriggerEnter(Collider other)
@@ -32,7 +34,7 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            float bar = (float)_currentHealth / PlayerPrefs.GetInt("healthP");
+            float bar = (float)_currentHealth / _maxHealth;
             _barHP.OnHealthChange(bar, value);
         }
     }

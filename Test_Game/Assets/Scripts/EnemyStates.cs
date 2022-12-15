@@ -8,19 +8,22 @@ public class EnemyStates : MonoBehaviour
 
     private void Start()
     {
-        //if (PlayerPrefs.HasKey("damageE"))
-        //{
-        //    PlayerPrefs.GetInt("damageE");
-        //    PlayerPrefs.GetInt("attackSpeedE");
-        //    PlayerPrefs.GetInt("healthE");
-        //}
-        //else
-        // {
-        PlayerPrefs.DeleteAll();
-        PlayerPrefs.SetInt("damageE", _damage);
-        PlayerPrefs.SetFloat("attackSpeedE", _attackSpeed);
-        PlayerPrefs.SetFloat("healthE", _health);
-        // }
+        if (PlayerPrefs.HasKey("damageE"))
+        {
+            PlayerPrefs.GetInt("damageE");
+            PlayerPrefs.GetFloat("attackSpeedE");
+            PlayerPrefs.GetFloat("healthE");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("damageE", _damage);
+            PlayerPrefs.SetFloat("attackSpeedE", _attackSpeed);
+            PlayerPrefs.SetFloat("healthE", _health);
+
+            Debug.Log(PlayerPrefs.GetInt("damageE"));
+            Debug.Log(PlayerPrefs.GetFloat("attackSpeedE"));
+            Debug.Log(PlayerPrefs.GetFloat("healthE"));
+        }
 
     }
 }
