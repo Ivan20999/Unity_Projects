@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
 
             GameObject temp = Instantiate(_enemyPrefab) as GameObject;
             Vector3 position = temp.transform.position;
-            position.z = Random.Range(-7f, 7f);
+            position.z = Random.Range(-20f, 20f);
             temp.transform.position = position;
 
             _timer = 0;

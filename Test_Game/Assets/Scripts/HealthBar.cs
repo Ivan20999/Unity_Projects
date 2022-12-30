@@ -43,7 +43,7 @@ public class HealthBar : MonoBehaviour
             }
         }
 
-        transform.LookAt(new Vector3(transform.position.x, _camera.transform.position.y, _camera.transform.position.z));
+        transform.LookAt(new Vector3(_camera.transform.position.x, _camera.transform.position.y, _camera.transform.position.z));
         transform.Rotate(0, 180, 0);
     }
 }

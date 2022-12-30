@@ -35,13 +35,30 @@ public class Cloud : MonoBehaviour
             offset.z *= sphereOffsetScale.z;
             spTrans.localPosition = offset;
 
+            //Выбрать случайный масштаб
+            Vector3 scale = Vector3.one;
+            scale.x = Random.Range(sphereScaleRangeX.x, sphereScaleRangeX.y);
+            scale.y = Random.Range(sphereScaleRangeY.x, sphereScaleRangeY.y);
+            scale.z = Random.Range(sphereScaleRangeZ.x, sphereScaleRangeZ.y);
 
+            //Скорретировать масштаб y по расстоянию x от центра
+            scale.y *=1 - (Mathf.Abs(offset.x)/sphereOffsetScale.x);
+            scale.y = Mathf.Max(scale.y, scaleYMin);
 
+            spTrans.localScale = scale;
         }
-
 
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space)){ Restart(); }
+    }
 
-
+    private void Restart()
+    {
+        //Удалить старые сферы, составляющие облако
+        foreach(GameObject sp in spheres) Destroy(sp);
+        Start();
+    }
 }

@@ -196,7 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 454b7c2ccd49b104c91b246911ba1aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cloudSphere: {fileID: 0}
+  cloudSphere: {fileID: 4231517488769195098, guid: f47e0026b3e4a974f92d691860d3acb5,
+    type: 3}
   numSpheresMin: 6
   numSpheresMax: 10
   sphereOffsetScale: {x: 5, y: 2, z: 1}
