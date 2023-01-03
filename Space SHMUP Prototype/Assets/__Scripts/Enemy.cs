@@ -4,6 +4,48 @@ using UnityEngine; //Необходим для доустпа к Unity
 
 public class Enemy : MonoBehaviour
 {
-    [Header]
+    [Header("Set in Inspector: Enemy")]
+    public float speed = 10f; //Скорость в м/с
+    public float fireRate = 0.3f; //Секунд между выстрелами (не используется)
+    public float health = 10;
+    public int score = 100; //Очки за уничтожения этого коробля
 
+    private BoundsCheck bndCheck;
+
+    //Это свойство: метод, действует как поле
+    public Vector3 pos
+    {
+        get
+        {
+            return (this.transform.position);
+        }
+        set
+        {
+            this.transform.position = value;
+        }
+    }
+
+    private void Awake()
+    {
+        bndCheck = GetComponent<BoundsCheck>();
+    }
+
+    private void Update()
+    {
+        Move();
+
+        if (bndCheck != null && bndCheck.offDown)
+        {
+            //Корабль за нижней границей, поэтому его нужно уничтожить
+            Destroy(gameObject);
+
+        }
+    }
+
+    public virtual void Move()
+    {
+        Vector3 tempPos = pos;
+        tempPos.y -= speed * Time.deltaTime;
+        pos = tempPos;
+    }
 }
