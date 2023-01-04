@@ -11,9 +11,16 @@ public class Hero : MonoBehaviour
     public float speed = 30;
     public float rollMult = -45;
     public float pitchMult = 30;
+    public float gameRestartDelay = 2f;
+    public GameObject projectilePrefab;
+    public float projectileSpeed = 40;
 
     [Header("Set Dynamically")]
-    public float shieldLevel = 1;
+    [SerializeField]
+    private float _shieldLevel = 1;
+
+    //Эта переменная хранит ссылку на последний столкнувшийся игровой обьект
+    private GameObject lastTriggerGo = null;
 
     private void Awake()
     {
@@ -41,12 +48,62 @@ public class Hero : MonoBehaviour
 
         //Повернуть корабль, чтобы придать ощущение динамизма
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult, 0);
+
+        //Позволить кораблю выстрелить
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TempFire();
+        }
+    }
+
+    void TempFire()
+    {
+        GameObject projGO = Instantiate<GameObject>(projectilePrefab);
+        projGO.transform.position = transform.position; //Присвоение координат
+        Rigidbody rigidB = projGO.GetComponent<Rigidbody>();
+        rigidB.velocity = Vector3.up * projectileSpeed; //Присвеоние скорости
     }
 
     private void OnTriggerEnter(Collider other)
     {
         Transform rootT = other.gameObject.transform.root;
         GameObject go = rootT.gameObject;
-        print("Triggered: " + go.name);
+        //print("Triggered: " + go.name);
+
+        //Гарантировать невозможность повторного столкновения с тем же обьектом
+        if (go == lastTriggerGo)
+        {
+            return;
+        }
+        lastTriggerGo = go;
+
+        if (go.tag == "Enemy") //Если защитное поле столкнулось с вражеским кораблем
+        {
+            shieldLevel--; //Уменьшить уровень защиты
+            Destroy(go); //Уничтожить врага
+        }
+        else
+        {
+            print("Triggered by non-Enemy: " + go.name);
+        }
+    }
+
+    public float shieldLevel
+    {
+        get
+        {
+            return (_shieldLevel);
+        }
+        set
+        {
+            _shieldLevel = Mathf.Min(value, 4);
+            //Если уровень поля упал до нуля или ниже
+            if(value < 0)
+            {
+                Destroy(this.gameObject);
+                //Сообщить обьекту Main.S о необходимости перезагрузить игру
+                Main.S.DelayedRestart(gameRestartDelay);
+            }
+        }
     }
 }

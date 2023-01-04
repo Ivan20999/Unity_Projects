@@ -25,12 +25,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Awake()
+    void Awake()
     {
         bndCheck = GetComponent<BoundsCheck>();
     }
 
-    private void Update()
+    void Update()
     {
         Move();
 
@@ -47,5 +47,19 @@ public class Enemy : MonoBehaviour
         Vector3 tempPos = pos;
         tempPos.y -= speed * Time.deltaTime;
         pos = tempPos;
+    }
+
+    void OnCollisionEnter(Collision coll)
+    {
+        GameObject otherGO = coll.gameObject;
+        if (otherGO.tag == "ProjectileHero")
+        {
+            Destroy(otherGO); //”ничтожить снар€д
+            Destroy(gameObject); //”ничтожить игровой обьект Enemy
+        }
+        else
+        {
+            print("Enemy hit by non-ProjectileHero: " + otherGO.name);
+        }
     }
 }

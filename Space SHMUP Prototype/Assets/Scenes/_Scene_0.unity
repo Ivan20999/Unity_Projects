@@ -486,7 +486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabEnemies:
-  - {fileID: 3079210666634228287, guid: b383e10453b46d945a2a9cb1d7661f5c, type: 3}
+  - {fileID: 8111201935712093412, guid: 55ce2338a45a8fa4aada0a68a843f9b6, type: 3}
   enemySpawnPerSecond: 0.5
   enemyDefaultPadding: 1.5
 --- !u!1 &410087039
@@ -850,7 +850,11 @@ MonoBehaviour:
   speed: 30
   rollMult: -45
   pitchMult: 30
-  shieldLevel: 1
+  gameRestartDelay: 2
+  projectilePrefab: {fileID: 3385698631423645936, guid: 75ae53769474a19498388aeac6f5b1f9,
+    type: 3}
+  projectileSpeed: 40
+  _shieldLevel: 1
 --- !u!114 &1410991169
 MonoBehaviour:
   m_ObjectHideFlags: 0
