@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement; //Для загрузки и перезагрузки сцен
 public class Main : MonoBehaviour
 {
     static public Main S; //Обьект-одиночка Main
+    static Dictionary<WeaponType,WeaponDefinition> WEAP_DICT;
 
     [Header("Set in Inspector")]
     public GameObject[] prefabEnemies; //Массив шаблонов Enemy
     public float enemySpawnPerSecond = 0.5f; //Вражеских кораблей в секунуду
     public float enemyDefaultPadding = 1.5f;//Отступ для позиционирования
+    public WeaponDefinition[] weaponDefinitions;
 
     private BoundsCheck bndCheck;
 
@@ -21,6 +23,13 @@ public class Main : MonoBehaviour
         bndCheck = GetComponent<BoundsCheck>();
         //вызывать SpawnEnemy() один раз (в 2 секунды при значениях по умолчанию)
         Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
+
+        //Словарь с ключами типа WeaponType
+        WEAP_DICT = new Dictionary<WeaponType, WeaponDefinition>();
+        foreach(WeaponDefinition def in weaponDefinitions)
+        {
+            WEAP_DICT[def.type] = def;
+        }
     }
 
     public void SpawnEnemy()
@@ -60,5 +69,7 @@ public class Main : MonoBehaviour
         SceneManager.LoadScene("_Scene_0");
     }
 
+    
+    
 
 }

@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     public float health = 10;
     public int score = 100; //Очки за уничтожения этого коробля
 
-    private BoundsCheck bndCheck;
+    protected BoundsCheck bndCheck;
 
     //Это свойство: метод, действует как поле
     public Vector3 pos

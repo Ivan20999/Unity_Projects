@@ -39,13 +39,14 @@ public class Enemy_1 : Enemy
         pos = tempPos;
 
         //повернуть немного относительно оси Y
-        Vector3 rot  = new Vector3(0,sin*waveRotY,0);
+        Vector3 rot = new Vector3(0, sin * waveRotY, 0);
         this.transform.rotation = Quaternion.Euler(rot);
 
         //Обрабатывать движение вниз, вдоль осиY
         base.Move();
 
         //print(bndCheck.isOnScreen);
+
     }
 
 }
