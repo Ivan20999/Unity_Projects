@@ -9,6 +9,14 @@ public class Enemy : MonoBehaviour
     public float fireRate = 0.3f; //Секунд между выстрелами (не используется)
     public float health = 10;
     public int score = 100; //Очки за уничтожения этого коробля
+    public float showDamageDuration = 0.1f; //Длительность эффекта попадания в сек
+
+    [Header("Set Dynamically: Enemy")]
+    public Color[] originalColors;
+    public Material[] materials;//Все материалы игрового обьекта и его потомков
+    public bool showingDamage = false;
+    public float damageDoneTime;// Время прекращения отображения эффекта
+    public bool notifiedOfDestruction = false;//Будет использовано позже
 
     protected BoundsCheck bndCheck;
 
@@ -28,11 +36,24 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         bndCheck = GetComponent<BoundsCheck>();
+
+        //Получить материалы и цвет этового обьекта и его потомков
+        materials = Utils.GetAllMaterials(gameObject);
+        originalColors = new Color[materials.Length];
+        for(int i = 0; i < materials.Length; i++)
+        {
+            originalColors[i] = materials[i].color;
+        }
     }
 
     void Update()
     {
         Move();
+
+        if(showingDamage && Time.time > damageDoneTime)
+        {
+            UnShowDamage();
+        }
 
         if (bndCheck != null && bndCheck.offDown)
         {
@@ -52,14 +73,64 @@ public class Enemy : MonoBehaviour
     void OnCollisionEnter(Collision coll)
     {
         GameObject otherGO = coll.gameObject;
-        if (otherGO.tag == "ProjectileHero")
+        //if (otherGO.tag == "ProjectileHero")
+        //{
+        //    Destroy(otherGO); //Уничтожить снаряд
+        //    ShowDamage();
+        //    //Destroy(gameObject); //Уничтожить игровой обьект Enemy
+        //}
+        //else
+        //{
+        //    print("Enemy hit by non-ProjectileHero: " + otherGO.name);
+        //}
+
+        switch (otherGO.tag)
         {
-            Destroy(otherGO); //Уничтожить снаряд
-            Destroy(gameObject); //Уничтожить игровой обьект Enemy
+            case "ProjectileHero":
+                Projectile p = otherGO.GetComponent<Projectile>();
+                //Если вражеский корабль за границей экрана,
+                //не наносить ему повреждений.
+                if (!bndCheck.isOnScreen)
+                {
+                    Destroy(otherGO);
+                    break;
+                }
+
+                //Поразить вражеский корабль
+                ShowDamage();
+                //Получить разрушающую силу из WEAP_DICT в классе Main
+                health -= Main.GetWeaponDefinition(p.type).damageOnHit;
+                if (health <= 0)
+                {
+                    //Уничтожить этот вражеский корабль
+                    Destroy(this.gameObject);
+                }
+                Destroy(otherGO);
+                break;
+
+            default:
+                print("Enemy hi by non-ProjectileHero: " + otherGO.name);
+                break;
+
         }
-        else
+    }
+
+    void ShowDamage()
+    {
+        foreach(Material m in materials)
         {
-            print("Enemy hit by non-ProjectileHero: " + otherGO.name);
+            m.color = Color.red;
         }
+        showingDamage = true;
+        damageDoneTime = Time.time + showDamageDuration;
+    }
+
+    void UnShowDamage()
+    {
+        for(int i = 0; i < materials.Length; i++)
+        {
+            materials[i].color = originalColors[i];
+        }
+        showingDamage = false;
     }
 }

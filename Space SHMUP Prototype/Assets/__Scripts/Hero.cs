@@ -22,6 +22,11 @@ public class Hero : MonoBehaviour
     //Эта переменная хранит ссылку на последний столкнувшийся игровой обьект
     private GameObject lastTriggerGo = null;
 
+    //Обьявление нового делегата типа WeaponFireDelegate
+    public delegate void WeaponFireDelegate();
+    //Создать поле типа WeaponFireDelegate с именем fireDelegate
+    public WeaponFireDelegate fireDelegate;
+
     private void Awake()
     {
         if (S == null)
@@ -32,6 +37,7 @@ public class Hero : MonoBehaviour
         {
             Debug.LogError("Hero.Awake() - Attemted to assign second Hero.S!");
         }
+        //fireDelegate += TempFire;
     }
 
     void Update()
@@ -50,9 +56,18 @@ public class Hero : MonoBehaviour
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult, 0);
 
         //Позволить кораблю выстрелить
-        if (Input.GetKeyDown(KeyCode.Space))
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    TempFire();
+        //}
+
+        //Произвести выстрел из всех видов оружия вызовом fireDelegate
+        //Сначала проверить нажатие клавиши: Axis("Jump")
+        //Затем убедиться, что значение fireDelegate не равно null,
+        //что бы избежать ошибки
+        if(Input.GetAxis("Jump") == 1 && fireDelegate != null)
         {
-            TempFire();
+            fireDelegate();
         }
     }
 
@@ -61,7 +76,12 @@ public class Hero : MonoBehaviour
         GameObject projGO = Instantiate<GameObject>(projectilePrefab);
         projGO.transform.position = transform.position; //Присвоение координат
         Rigidbody rigidB = projGO.GetComponent<Rigidbody>();
-        rigidB.velocity = Vector3.up * projectileSpeed; //Присвеоние скорости
+        //rigidB.velocity = Vector3.up * projectileSpeed; //Присвеоние скорости
+
+        Projectile proj = projGO.GetComponent<Projectile>();
+        proj.type = WeaponType.blaster;
+        float tSpeed = Main.GetWeaponDefinition(proj.type).velocity;
+        rigidB.velocity = Vector3.up * tSpeed;
     }
 
     private void OnTriggerEnter(Collider other)
