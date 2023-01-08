@@ -14,6 +14,7 @@ public class Hero : MonoBehaviour
     public float gameRestartDelay = 2f;
     public GameObject projectilePrefab;
     public float projectileSpeed = 40;
+    public Weapon[] weapons;
 
     [Header("Set Dynamically")]
     [SerializeField]
@@ -65,7 +66,7 @@ public class Hero : MonoBehaviour
         //Сначала проверить нажатие клавиши: Axis("Jump")
         //Затем убедиться, что значение fireDelegate не равно null,
         //что бы избежать ошибки
-        if(Input.GetAxis("Jump") == 1 && fireDelegate != null)
+        if (Input.GetAxis("Jump") == 1 && fireDelegate != null)
         {
             fireDelegate();
         }
@@ -102,10 +103,46 @@ public class Hero : MonoBehaviour
             shieldLevel--; //Уменьшить уровень защиты
             Destroy(go); //Уничтожить врага
         }
+        else if (go.tag == "PowerUp")
+        {
+            //Если защитное поле столкнулось с бонусом
+            AbsorbPowerUp(go);
+        }
         else
         {
             print("Triggered by non-Enemy: " + go.name);
         }
+    }
+
+    public void AbsorbPowerUp(GameObject go)
+    {
+        PowerUP pu = go.GetComponent<PowerUP>();
+        switch (pu.type)
+        {
+            case WeaponType.shield:
+                shieldLevel++;
+                break;
+
+            default:
+                if (pu.type == weapons[0].type) //Если оружие того же типа
+                {
+                    Weapon w = GetEmptyWeaponSlot();
+                    if (w != null)
+                    {
+                        //Установить в pu.type
+                        w.SetType(pu.type);
+                    }
+
+                }
+                else //Если оружие другого типа
+                {
+                    ClearWeapons();
+                    weapons[0].SetType(pu.type);
+                }
+                break;
+            
+        }
+        pu.AbsorbedBy(this.gameObject);
     }
 
     public float shieldLevel
@@ -118,12 +155,32 @@ public class Hero : MonoBehaviour
         {
             _shieldLevel = Mathf.Min(value, 4);
             //Если уровень поля упал до нуля или ниже
-            if(value < 0)
+            if (value < 0)
             {
                 Destroy(this.gameObject);
                 //Сообщить обьекту Main.S о необходимости перезагрузить игру
                 Main.S.DelayedRestart(gameRestartDelay);
             }
+        }
+    }
+
+    Weapon GetEmptyWeaponSlot()
+    {
+        for(int i = 0; i < weapons.Length; i++)
+        {
+            if(weapons[i].type == WeaponType.none)
+            {
+                return (weapons[i]);
+            }
+        }
+        return null;
+    }
+
+    void ClearWeapons()
+    {
+        foreach(Weapon w in weapons)
+        {
+            w.SetType(WeaponType.none);
         }
     }
 }
