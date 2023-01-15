@@ -40,8 +40,10 @@ public class RayShooter : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 //Получаем обьект в который попал луч.
-                GameObject hitObject = hit.transform.gameObject;
+                GameObject hitObject = hit.transform.parent.gameObject;
+
                 ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
+                
                 //Проверяем наличие у этого обьекта компонента ReactiveTarget.
                 if(target != null)
                 {
