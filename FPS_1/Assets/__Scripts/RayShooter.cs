@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems; //Подключение библиотеки для UI-системы. 
 
 public class RayShooter : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class RayShooter : MonoBehaviour
         //Доступ к другим компонентам, присоединенным к этому же обьекту
         _camera = GetComponent<Camera>();
         //Скрываем указатель мыши вцентре экрана.
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
 
     }
 
@@ -27,8 +28,8 @@ public class RayShooter : MonoBehaviour
 
     void Update()
     {
-        //Реакция на нажатие кнопки мыши
-        if (Input.GetMouseButtonDown(0))
+        //Реакция на нажатие кнопки мыши + проверяем, что GUI не используется
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             //Середина экрана - это половина его ширины и высоты
             Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
@@ -43,9 +44,9 @@ public class RayShooter : MonoBehaviour
                 GameObject hitObject = hit.transform.parent.gameObject;
 
                 ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
-                
+
                 //Проверяем наличие у этого обьекта компонента ReactiveTarget.
-                if(target != null)
+                if (target != null)
                 {
                     //Debug.Log("Target hit");
                     //Вызов метода для мишени вместо генерации отладочного сообщения.
