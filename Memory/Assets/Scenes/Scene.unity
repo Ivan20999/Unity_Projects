@@ -860,6 +860,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 779249a8865cfb2409dd1c30f3d6c420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _targetObject: {fileID: 111165739}
+  _targetMessage: Restart
+  highlightColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!61 &2039905822
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -119,4 +119,9 @@ public class SceneController : MonoBehaviour
         _firstRevealed = null;
         _secondRevealed = null;
     }
+
+    public void Restart()
+    {
+        Application.LoadLevel("Scene"); //Вызов ресурса Scene
+    }
 }
