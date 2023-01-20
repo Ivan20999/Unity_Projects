@@ -51,6 +51,7 @@ public class RayShooter : MonoBehaviour
                     //Debug.Log("Target hit");
                     //Вызов метода для мишени вместо генерации отладочного сообщения.
                     target.ReactToHit();
+                    Messenger.Broadcast(GameEvent.ENEMY_HIT); //К реакции на попадание добавляется рассылка сообщения.
                 }
                 else
                 {

@@ -1,9 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+
 
 public class WanderingAI : MonoBehaviour
 {
+    public const float baseSpeed = 3.0f; //Базовая скорость, меняема в соотвествии с положением ползунка.
+
     //Значение для скорости движения и расстояния, с которого
     //начиниается реакция на препятствие.
     public float speed = 3.0f;
@@ -14,11 +16,26 @@ public class WanderingAI : MonoBehaviour
     [SerializeField] private GameObject _fireballPrefab;
     private GameObject _fireball;
 
+    void Awake()
+    {
+        //Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    void OnDestroy()
+    {
+       // Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    //private void OnSpeedChanged(float value) //Метод, обьявленный в подписчике для события SPEED_CHANGED.
+    //{
+    //    speed = baseSpeed * value;
+    //}
+
     private void Start()
     {
         _alive = true;
     }
-
+    #region
     private void Update()
     {
         //Движение начинается только в случае живого персонажа.
@@ -42,7 +59,7 @@ public class WanderingAI : MonoBehaviour
             PlayerCharacter target = hitObject.GetComponent<PlayerCharacter>();
             if (target)
             {
-                if(_fireball == null)
+                if (_fireball == null)
                 {
                     _fireball = Instantiate(_fireballPrefab) as GameObject;
                     //Поместим огненный шар перед врагом и нацелим в направлении
@@ -67,5 +84,7 @@ public class WanderingAI : MonoBehaviour
     {
         _alive = alive;
     }
+    #endregion
+
 
 }
