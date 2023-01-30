@@ -7,21 +7,30 @@ public class RelativeMovement : MonoBehaviour
 {
     [SerializeField] private Transform _target;//Сценарию нужна ссылка на обьект,
                                                //относительно которого будет происходить перемещение.
+
+    private ControllerColliderHit _contact; //Нужно для сохранения данных о столкновении между функциями.
+
+
+
+
     public float rotSpeed = 15.0f;
     public float moveSpeed = 6.0f;
     public float jumpSpeed = 15.0f;
     public float gravity = -9.8f;
     public float terminalVelocity = -10.0f;
     public float minFall = -1.5f;
+    public float pushForce = 3.0f;
 
     private CharacterController _charController;
     private float _vertSpeed;
+    private Animator _animator;
 
     private void Start()
     {
         _charController = GetComponent<CharacterController>();
         _vertSpeed = minFall;//Инициализируем скорость пов ертикали, присваивая ей мин.
                              //скорость падения в начале существующей функции.
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -52,11 +61,23 @@ public class RelativeMovement : MonoBehaviour
 
 
 
-            
+
         }
 
-        #region Прыжок персонажа
-        if (_charController.isGrounded)//Проверяет на соприкосновение с землей
+        #region Прыжок персонажа и контроль нахождения на поверхности
+        bool hitGround = false;
+        RaycastHit hit;
+
+        if (_vertSpeed < 0 && Physics.Raycast(transform.position, Vector3.down, out hit))
+        {
+            float check = //Расстояние, с которым производится сравнение(слегка выходит за нижнюю часть капсулы
+                (_charController.height + _charController.radius) / 1.9f;
+            hitGround = hit.distance <= check;
+        }
+
+        _animator.SetFloat("Speed",movement.sqrMagnitude);
+
+        if (hitGround)//Проверяет на соприкосновение с землей
         {
             if (Input.GetButtonDown("Jump"))
             {
@@ -65,6 +86,8 @@ public class RelativeMovement : MonoBehaviour
             else
             {
                 _vertSpeed = minFall;
+                //_vertSpeed = -0.1f;
+                _animator.SetBool("Jumping", false);
             }
         }
         else //Если персонаж не стоит на поверхности, применяем гравитацию, пока не будет достигнута скорость.
@@ -73,6 +96,24 @@ public class RelativeMovement : MonoBehaviour
             if (_vertSpeed < terminalVelocity)
             {
                 _vertSpeed = terminalVelocity;
+            }
+
+            if (_contact != null)
+            {
+                _animator.SetBool("Jumping",true);
+            }
+
+            if (_charController.isGrounded)//Метод бросания луча не обнаруживает поверхности
+                                           //но капсула с ней соприкасается
+            {
+                if (Vector3.Dot(movement, _contact.normal) < 0)
+                {
+                    movement = _contact.normal * moveSpeed;
+                }
+                else
+                {
+                    movement += _contact.normal * moveSpeed;
+                }
             }
         }
 
@@ -83,7 +124,21 @@ public class RelativeMovement : MonoBehaviour
 
         movement *= Time.deltaTime;
         _charController.Move(movement);
+
         #endregion
 
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit) //При распозновании столкновения
+                                                                    //данные этого столкновения сохраняются в метод обратного вызова.
+    {
+        _contact = hit;
+
+        Rigidbody body = hit.collider.attachedRigidbody;//Проверяее, есть ли у учавствующего в столкновении
+        //обьекта компонент Rigidbody, обеспечивающий реакцию на приложенную силу.
+        if(body != null && !body.isKinematic)
+        {
+            body.velocity = hit.moveDirection * pushForce;//Назначение физическому телу скорости.
+        }
     }
 }
