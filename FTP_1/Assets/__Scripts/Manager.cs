@@ -52,7 +52,7 @@ public class Manager : MonoBehaviour
         {
             int lastReady = numReady;
             numReady = 0;
-
+         
             foreach (IGameManager manager in _startSequence)
             {
                 if(manager.status == ManagerStatus.Started)
@@ -60,7 +60,7 @@ public class Manager : MonoBehaviour
                     numReady++;
                 }
             }
-
+            
             if (numReady > lastReady)
             {
                 Debug.Log("Progress: " + numReady + "/" + numModules);
