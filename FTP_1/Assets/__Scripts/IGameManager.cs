@@ -7,5 +7,5 @@ public interface IGameManager
     ManagerStatus status { get; }//Перечисление, которое нужно определить.
 
     //Предназначен для обработки процесса инициализации диспетчера
-    void Startup();
+    void Startup(NetworkService service);
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(PlayerManager))]
 [RequireComponent(typeof(InvertoryManager))]
+[RequireComponent(typeof(WeatherManager))]
 
 public class Manager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Manager : MonoBehaviour
     /// </summary>
     public static PlayerManager Player { get; private set; }
     public static InvertoryManager Inventory { get; private set; }
+    public static WeatherManager Weather { get; private set; }
 
 
     /// <summary>
@@ -28,19 +30,24 @@ public class Manager : MonoBehaviour
     {
         Player = GetComponent<PlayerManager>();
         Inventory = GetComponent<InvertoryManager>();
+        Weather = GetComponent<WeatherManager>();
 
         _startSequence = new List<IGameManager>();
         _startSequence.Add(Player);
         _startSequence.Add(Inventory);
+        _startSequence.Add(Weather);
 
         StartCoroutine(StartupManagers());//јсинхронно загружаем стартовую последовательность
     }
 
     private IEnumerator StartupManagers()
     {
+        NetworkService network = new NetworkService();//—оздание экземпл€ра обьекта NetwokService
+                                                      //дл€ вставик во все диспетчеры.
+
         foreach(IGameManager manager in _startSequence)
         {
-            manager.Startup();
+            manager.Startup(network);
         }
 
         yield return null;

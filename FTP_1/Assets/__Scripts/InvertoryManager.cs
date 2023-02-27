@@ -10,7 +10,7 @@ public class InvertoryManager : MonoBehaviour, IGameManager
 
     public string equippedItem { get; private set; }
     
-    public void Startup()
+    public void Startup(NetworkService service)
     {
         Debug.Log("Invertory manager starting...");//Сюда идут все задачи запуска с долгим
                                                    //временем выполнения.
