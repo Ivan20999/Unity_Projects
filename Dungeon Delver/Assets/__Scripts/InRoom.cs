@@ -17,8 +17,8 @@ public class InRoom : MonoBehaviour
         if (keepInRoom)
         {
             Vector2 rPos = roomPos;
-            rPos.x = Mathf.Clamp(rPos.x, WALL_T, ROOM_W-1-WALL_T);
-            rPos.y = Mathf.Clamp(rPos.y, WALL_T, ROOM_H-1-WALL_T);
+            rPos.x = Mathf.Clamp(rPos.x, WALL_T, ROOM_W - 1 - WALL_T);
+            rPos.y = Mathf.Clamp(rPos.y, WALL_T, ROOM_H - 1 - WALL_T);
             roomPos = rPos;
         }
     }
@@ -63,5 +63,20 @@ public class InRoom : MonoBehaviour
             rm.y *= ROOM_H;
             transform.position = rm + rPos;
         }
+    }
+
+    // Вычисляет координаты узла сетки, ближайшего к данному персонажу
+    public Vector2 GetRoomPosOnGrid(float mult = -1)
+    {
+        if (mult == -1)
+        {
+            mult = gridMult;
+        }
+        Vector2 rPos = roomPos;
+        rPos /= mult;
+        rPos.x = Mathf.Round(rPos.x);
+        rPos.y = Mathf.Round(rPos.y);
+        rPos *= mult;
+        return rPos;
     }
 }
