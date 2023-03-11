@@ -10,6 +10,7 @@ public class Dray : MonoBehaviour, IFacingMover
     public float speed = 5;
     public float attackDuration = 0.25f; //Продолжительность атаки в секундах
     public float attackDelay = 0.5f;     //Задержка между атаками
+    public float transitionDelay = 0.5f; //Задержка перехода между комнатами
 
     [Header("Set Dynamically")]
     public int dirHeld = -1;//Направление, соотвествующее удерживаемой клавише
@@ -18,6 +19,9 @@ public class Dray : MonoBehaviour, IFacingMover
 
     private float timeAtkDone = 0;
     private float timeAtkNext = 0;
+
+    private float transitionDone = 0;
+    private Vector2 transitionPos;
 
     private Rigidbody _rigid;
     private Animator _anim;
@@ -38,6 +42,16 @@ public class Dray : MonoBehaviour, IFacingMover
 
     private void Update()
     {
+        if(mode == eMode.transition)
+        {
+            _rigid.velocity = Vector3.zero;
+            _anim.speed = 0;
+            roomPos = transitionPos; //Оставить Дрея на месте
+            if (Time.time < transitionDone) return;
+            // Следующая строка выполняется, только если Time.time >= transitionDone
+            mode = eMode.idle;
+        }
+
         //----Обработка ввода с кливаатуры и управление режимами eMode----
         dirHeld = -1;
 
@@ -98,6 +112,56 @@ public class Dray : MonoBehaviour, IFacingMover
 
         _rigid.velocity = vel * speed;
     }
+
+    void LateUpdate()
+    {
+        // Получить координаты узла сетки, с размером ячейки
+        // в половину единицы, ближайшего к данному персонажу
+        Vector2 rPos = GetRoomPosOnGrid(0.5f); //Размер ячейки в пол-единицы
+
+        // Персонаж находится на плитке с дверью?
+        int doorNum;
+        for (doorNum = 0; doorNum < 4; doorNum++)
+        {
+            if (rPos == InRoom.DOORS[doorNum])
+                break;
+        }
+
+        if (doorNum > 3 || doorNum != facing) return;
+
+        // Перейти в следующую комнату
+        Vector2 rm = roomNum;
+        switch (doorNum)
+        {
+            case 0:
+                rm.x += 1;
+                break;
+            case 1:
+                rm.y += 1;
+                break;
+            case 2:
+                rm.x -= 1;
+                break;
+            case 3:
+                rm.y -= 1;
+                break;
+        }
+
+        // Проверить, можно ли выполнить переход в комнату rm
+        if(rm.x >=0 && rm.x <= InRoom.MAX_RM_X)
+        {
+            if(rm.y >=0 && rm.y <= InRoom.MAX_RM_Y)
+            {
+                roomNum = rm;
+                transitionPos = InRoom.DOORS[(doorNum + 2) % 4];
+                roomPos = transitionPos;
+                mode = eMode.transition;
+                transitionDone = Time.time + transitionDelay;
+            }
+        }
+
+    }
+
 
     // Реализаия интерфейса IFacingMover
     public int GetFacing()
